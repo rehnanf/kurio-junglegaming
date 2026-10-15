@@ -1,0 +1,437 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 18 33.33% 5.88%;
+    --foreground: 36 33.33% 94.12%;
+
+    --card: 13.33 33.33% 10.59%;
+    --card-foreground: 36 33.33% 94.12%;
+
+    --popover: 13.33 33.33% 10.59%;
+    --popover-foreground: 36 33.33% 94.12%;
+
+    --primary: 27.76 59.82% 56.08%;
+    --primary-foreground: 18 33.33% 5.88%;
+
+    --secondary: 28 30% 14%;
+    --secondary-foreground: 38 50% 92%;
+
+    --muted: 28 25% 18%;
+    --muted-foreground: 34.03 41.1% 68.04%;
+
+    --accent: 27.76 59.82% 56.08%;
+    --accent-foreground: 18 33.33% 5.88%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 38 50% 92%;
+
+    --success: 142 70% 50%;
+    --success-foreground: 38 50% 92%;
+
+    --warning: 38 90% 60%;
+    --warning-foreground: 28 60% 8%;
+
+    --border: 18 34% 17%;
+    --input: 18 34% 17%;
+    --ring: 27.76 59.82% 56.08%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 18 33.33% 5.88%;
+    --foreground: 36 33.33% 94.12%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    background-image: none;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.4);
+    color: hsl(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    letter-spacing: -0.02em;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-muted/40;
+  }
+
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.08) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    @apply animate-shimmer;
+  }
+
+  .card-surface {
+    @apply rounded-2xl border border-border bg-card/80 backdrop-blur-sm;
+  }
+
+  .field-input {
+    @apply h-11 w-full rounded-md border border-input bg-transparent px-3 text-sm
+      text-foreground placeholder:text-muted-foreground
+      focus-visible:border-primary focus-visible:outline-none
+      focus-visible:ring-1 focus-visible:ring-primary;
+  }
+
+  .btn-primary {
+    @apply inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm
+      font-semibold uppercase tracking-wide text-primary-foreground
+      transition-colors hover:bg-primary/90
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+      disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .btn-ghost {
+    @apply inline-flex h-11 items-center justify-center rounded-md border border-border
+      bg-transparent px-6 text-sm font-medium text-foreground
+      transition-colors hover:bg-secondary
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+      disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .nav-link {
+    @apply relative text-sm font-medium tracking-wide text-foreground/80
+      transition-colors hover:text-primary
+      focus-visible:outline-none focus-visible:text-primary;
+
+    &.active {
+      @apply text-primary;
+    }
+
+    &.active::after {
+      content: '';
+      @apply absolute -bottom-[14px] left-0 h-[2px] w-full bg-primary;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+/* Visual refinement based on the supplied KURIO Figma frames. */
+.kurio-catalog-filters .card-surface {
+  border-radius: 0.5rem;
+  border-color: hsl(var(--border) / 0.45);
+  background: hsl(var(--card) / 0.8);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+@media (max-width: 767px) {
+  .kurio-catalog-filters .card-surface { padding: 0.875rem; }
+  body { padding-bottom: 4.5rem; }
+}
+
+@media (max-width: 767px) {
+  body:has(.kurio-auth-page) header,
+  body:has(.kurio-auth-page) footer,
+  body:has(.kurio-auth-page) nav[aria-label="Navegação inferior"] { display: none; }
+  body:has(.kurio-auth-page) { padding-bottom: 0; }
+}
+
+/* Figma Desktop / Início: 1440px frame, 1200px content, 120px side margins. */
+@media (min-width: 1024px) {
+  .container { max-width: 1200px !important; padding-left: 0 !important; padding-right: 0 !important; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container { max-width: 100%; padding-left: 32px; padding-right: 32px; }
+}
+/* The supplied design uses square-edged panels, hairline rules, and Roboto Mono. */
+.kurio-catalog-filters { background: #241612; padding: 20px; }
+.kurio-catalog-filters .card-surface {
+  border: 0; background: transparent; padding: 0; border-radius: 0;
+  margin: 0 0 24px; box-shadow: none;
+}
+.kurio-catalog-filters .card-surface h2 { font-size: 18px; text-transform: none; letter-spacing: 0; margin-bottom: 14px; }
+.kurio-catalog-filters .card-surface ul { gap: 0; }
+.kurio-catalog-filters .card-surface li button { min-height: 40px; padding-left: 12px; padding-right: 12px; }
+.kurio-catalog-filters .card-surface li button span:last-child { color: #cfb28c; }
+.kurio-catalog-filters .card-surface input { font-size: 12px; }
+.kurio-catalog-filters .card-surface:has(summary) { margin-top: 28px; }
+@media (max-width: 1023px) {
+  .kurio-catalog-filters { padding: 16px; }
+}
+.kurio-nft-card:hover .kurio-nft-card-image { transform: scale(1.025); }
+.kurio-nft-card-image { transition: transform .2s ease; }
+.kurio-profile-panel { border: 0; border-radius: 0; background: transparent; padding: 0; }
+@media (prefers-reduced-motion: reduce) { .kurio-nft-card-image { transition: none; } }
+
+/* Figma account screens: sidebar 310px, borderless profile forms. */
+@media (min-width: 1024px) {
+  .kurio-account-page .card-surface {
+    border: 0; border-radius: 0; background: transparent; box-shadow: none;
+    backdrop-filter: none; padding: 0;
+  }
+  .kurio-account-page .card-surface h1,
+  .kurio-account-page .card-surface h2 { font-size: 18px; line-height: 24px; }
+  .kurio-account-page .field-input,
+  .kurio-account-page input { border-radius: 2px; }
+  .kurio-account-page form > .grid { column-gap: 28px; row-gap: 28px; }
+  .kurio-account-page .space-y-8 > * + * { margin-top: 32px; }
+  body:has(.kurio-account-page) footer { display: none; }
+  body:has(.kurio-account-page) #main { min-height: calc(100vh - 80px); }
+}
+/* Cart table: flat rows and borderless summary, as in the reference. */
+@media (min-width: 1024px) {
+  .kurio-cart-page > .grid { grid-template-columns: minmax(0, 1fr) 334px; gap: 72px; }
+  .kurio-cart-page .card-surface { border: 0; background: transparent; border-radius: 0; padding: 0; backdrop-filter: none; }
+  .kurio-cart-page table { border-collapse: separate; border-spacing: 0 10px; }
+  .kurio-cart-page table thead { background: transparent; }
+  .kurio-cart-page table tbody tr { background: #241612; }
+  .kurio-cart-page table tbody td { padding: 8px 10px; border: 0; }
+  .kurio-cart-page table tbody td:first-child { border-radius: 4px 0 0 4px; }
+  .kurio-cart-page table tbody td:last-child { border-radius: 0 4px 4px 0; }
+  .kurio-cart-page table tbody td img { object-fit: cover; }
+  .kurio-cart-page aside[aria-label="Resumo do carrinho"] h2 { border-bottom: 1px solid #5a3521; padding-bottom: 10px; }
+}
+/* Checkout uses a two-column, borderless form with the order summary on the right. */
+@media (min-width: 1024px) {
+  .kurio-checkout-page form { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; }
+  .kurio-checkout-page .card-surface { border: 0; border-radius: 0; background: transparent; padding: 0; box-shadow: none; backdrop-filter: none; }
+  .kurio-checkout-page form > div:first-child .card-surface h2 { font-size: 18px; }
+}
+.kurio-detail-page .card-surface { border-radius: 3px; }
+.kurio-detail-page .rounded-3xl { border-radius: 6px; }
+.kurio-detail-page .grid.lg\:grid-cols-\[1\.1fr_1fr\] { gap: 32px; }
+.kurio-order-page .max-w-2xl { max-width: 600px; }
+.kurio-order-page .card-surface { border-radius: 0; border: 0; background: #241612; box-shadow: none; }
+/* Authentication screenshots are overlay-only: the regular footer is not visible. */
+body:has(.kurio-auth-page) footer { display: none; }
+@media (min-width: 1024px) {
+  .kurio-auth-page form label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .kurio-auth-page form input { height: 40px; font-size: 12px; }
+  .kurio-auth-page form button { min-height: 40px; }
+  .kurio-auth-page .rounded-\[28px\] { background: #241612; }
+}
+
+/* Carrinho KURIO: referência Figma "Carrinho de NFTs".
+   As regras ficam isoladas para não modificar checkout, perfil ou catálogo. */
+.kurio-cart-page {
+  color: hsl(var(--foreground));
+}
+.kurio-cart-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.01em;
+}
+.kurio-cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 30px;
+}
+.kurio-cart-table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  font-size: 14px;
+}
+.kurio-cart-table thead th {
+  height: 34px;
+  padding: 0 8px 9px;
+  border-bottom: 1px solid #63391f;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f3efea;
+}
+.kurio-cart-table thead th:first-child { padding-left: 0; }
+.kurio-cart-table tbody tr { background: #241612; }
+.kurio-cart-table tbody td {
+  height: 80px;
+  padding: 8px;
+  border: 0;
+  vertical-align: middle;
+}
+.kurio-cart-table tbody td:first-child { padding-left: 0; }
+.kurio-cart-table tbody td:last-child { padding-right: 14px; }
+.kurio-cart-col-nft { width: 40%; }
+.kurio-cart-col-price { width: 17%; }
+.kurio-cart-col-quantity { width: 18%; }
+.kurio-cart-col-total { width: 19%; }
+.kurio-cart-col-remove { width: 6%; }
+.kurio-cart-artwork {
+  display: block;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #39251c;
+}
+.kurio-cart-artwork img { object-fit: cover; }
+.kurio-cart-item-title {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.kurio-cart-token {
+  margin-top: 2px;
+  color: #c6a679;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.kurio-cart-price { color: #d3ae82; font-weight: 700; white-space: nowrap; }
+.kurio-cart-line-total { color: #d28a4c; font-weight: 700; white-space: nowrap; }
+.kurio-cart-quantity { display: flex; align-items: center; gap: 9px; }
+.kurio-cart-quantity button {
+  display: inline-flex;
+  height: 28px;
+  width: 23px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #d28a4c;
+  color: #170e0a;
+  transition: background .15s ease;
+}
+.kurio-cart-quantity button:hover:not(:disabled) { background: #e6a365; }
+.kurio-cart-quantity button:disabled { opacity: .45; cursor: not-allowed; }
+.kurio-cart-quantity span { min-width: 15px; text-align: center; }
+.kurio-cart-remove { color: #b99a69; padding: 5px; }
+.kurio-cart-remove:hover:not(:disabled) { color: #d28a4c; }
+.kurio-cart-remove:disabled { opacity: .4; cursor: not-allowed; }
+.kurio-cart-summary h2 {
+  border-bottom: 1px solid #63391f;
+  padding-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.kurio-cart-coupon { margin-top: 24px; }
+.kurio-cart-coupon label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 700; }
+.kurio-cart-coupon input {
+  min-width: 0;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #a56835;
+  border-right: 0;
+  border-radius: 3px 0 0 3px;
+  background: transparent;
+  padding: 0 9px;
+  font-size: 11px;
+  color: #f3efea;
+}
+.kurio-cart-coupon input::placeholder { color: #b69a70; opacity: 1; }
+.kurio-cart-coupon button {
+  flex-shrink: 0;
+  height: 40px;
+  border-radius: 0 3px 3px 0;
+  background: #d28a4c;
+  padding: 0 16px;
+  color: #170e0a;
+  font-size: 14px;
+  font-weight: 700;
+}
+.kurio-cart-coupon button:hover:not(:disabled) { background: #e6a365; }
+.kurio-cart-coupon button:disabled { opacity: .6; cursor: wait; }
+.kurio-cart-totals { margin-top: 24px; font-size: 13px; }
+.kurio-cart-totals > div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 13px; }
+.kurio-cart-totals dt { flex: 1; }
+.kurio-cart-totals dd { flex: 0 0 auto; text-align: right; white-space: nowrap; }
+.kurio-cart-fee dd span { display: block; margin-top: 8px; font-size: 11px; color: #d28a4c; }
+.kurio-cart-totals .kurio-cart-grand-total { margin-top: 22px; font-weight: 700; font-size: 16px; }
+.kurio-cart-grand-total dd { color: #d28a4c; }
+.kurio-cart-page .kurio-cart-checkout {
+  height: 42px;
+  border-radius: 3px;
+  background: #d28a4c;
+  color: #170e0a;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: none;
+}
+.kurio-cart-suggestions { margin-top: 90px; }
+.kurio-cart-suggestions h2 {
+  border-bottom: 1px solid #63391f;
+  padding-bottom: 9px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #d28a4c;
+}
+.kurio-cart-suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding-top: 26px;
+}
+.kurio-cart-mobile-row { background: #241612; padding: 12px; }
+@media (min-width: 768px) {
+  .kurio-cart-layout { grid-template-columns: minmax(0, 1fr) 275px; gap: 28px; }
+  .kurio-cart-suggestions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .kurio-cart-layout { grid-template-columns: minmax(0, 1fr) 334px; gap: 72px; }
+  .kurio-cart-suggestions-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; }
+  .kurio-cart-table tbody td { padding: 8px; }
+  .kurio-cart-table tbody td:first-child { padding-left: 0; }
+}
+@media (max-width: 767px) {
+  .kurio-cart-page { padding-left: 16px; padding-right: 16px; }
+  .kurio-cart-summary { margin-top: 8px; }
+  .kurio-cart-suggestions { margin-top: 50px; }
+  .kurio-cart-artwork { width: 68px; height: 68px; flex-basis: 68px; }
+  .kurio-cart-quantity button { height: 32px; width: 28px; }
+  .kurio-cart-item-title { font-size: 13px; }
+}
